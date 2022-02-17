@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.NotSerializableException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,12 +71,16 @@ public class StdJDBCDelegateTest extends TestCase {
         StdJDBCDelegate jdbcDelegate = new StdJDBCDelegate();
         jdbcDelegate.initialize(LoggerFactory.getLogger(getClass()), "QRTZ_", "TESTSCHED", "INSTANCE", new SimpleClassLoadHelper(), false, "");
 
+
         Connection conn = mock(Connection.class);
         PreparedStatement preparedStatement = mock(PreparedStatement.class);
         ResultSet resultSet = mock(ResultSet.class);
+        
+        DatabaseMetaData databaseMetaData = mock(DatabaseMetaData.class);
+        when(conn.getMetaData()).thenReturn(databaseMetaData);
+        when(databaseMetaData.getIdentifierQuoteString()).thenReturn("\"");
 
         when(conn.prepareStatement(anyString())).thenReturn(preparedStatement);
-
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         // First result set has results, second has none
         when(resultSet.next()).thenReturn(true).thenReturn(false);
@@ -97,6 +102,10 @@ public class StdJDBCDelegateTest extends TestCase {
         Connection conn = mock(Connection.class);
         PreparedStatement preparedStatement = mock(PreparedStatement.class);
         ResultSet resultSet = mock(ResultSet.class);
+        
+		DatabaseMetaData databaseMetaData = mock(DatabaseMetaData.class);
+        when(conn.getMetaData()).thenReturn(databaseMetaData);
+        when(databaseMetaData.getIdentifierQuoteString()).thenReturn("\"");
 
         when(conn.prepareStatement(anyString())).thenReturn(preparedStatement);
 
@@ -126,6 +135,10 @@ public class StdJDBCDelegateTest extends TestCase {
         PreparedStatement preparedStatement = mock(PreparedStatement.class);
         ResultSet resultSet = mock(ResultSet.class);
 
+		DatabaseMetaData databaseMetaData = mock(DatabaseMetaData.class);
+        when(conn.getMetaData()).thenReturn(databaseMetaData);
+        when(databaseMetaData.getIdentifierQuoteString()).thenReturn("\"");
+
         when(conn.prepareStatement(anyString())).thenReturn(preparedStatement);
 
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
@@ -145,6 +158,11 @@ public class StdJDBCDelegateTest extends TestCase {
         Connection conn = mock(Connection.class);
         PreparedStatement preparedStatement = mock(PreparedStatement.class);
         ResultSet resultSet = mock(ResultSet.class);
+        
+		DatabaseMetaData databaseMetaData = mock(DatabaseMetaData.class);
+        when(conn.getMetaData()).thenReturn(databaseMetaData);
+        when(databaseMetaData.getIdentifierQuoteString()).thenReturn("\"");
+
 
         when(conn.prepareStatement(anyString())).thenReturn(preparedStatement);
 

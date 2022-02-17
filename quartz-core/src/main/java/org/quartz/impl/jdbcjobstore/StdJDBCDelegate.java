@@ -229,7 +229,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             ps = conn
-                    .prepareStatement(rtp(UPDATE_TRIGGER_STATES_FROM_OTHER_STATES));
+                    .prepareStatement(rtpq(UPDATE_TRIGGER_STATES_FROM_OTHER_STATES,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, newState);
             ps.setString(2, oldState1);
             ps.setString(3, oldState2);
@@ -255,7 +255,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_MISFIRED_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(SELECT_MISFIRED_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.setBigDecimal(1, new BigDecimal(String.valueOf(ts)));
             rs = ps.executeQuery();
 
@@ -289,7 +289,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGERS_IN_STATE));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGERS_IN_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, state);
             rs = ps.executeQuery();
 
@@ -311,7 +311,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_MISFIRED_TRIGGERS_IN_STATE));
+            ps = conn.prepareStatement(rtpq(SELECT_MISFIRED_TRIGGERS_IN_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setBigDecimal(1, new BigDecimal(String.valueOf(ts)));
             ps.setString(2, state);
             rs = ps.executeQuery();
@@ -350,7 +350,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_HAS_MISFIRED_TRIGGERS_IN_STATE));
+            ps = conn.prepareStatement(rtpq(SELECT_HAS_MISFIRED_TRIGGERS_IN_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setBigDecimal(1, new BigDecimal(String.valueOf(ts)));
             ps.setString(2, state1);
             rs = ps.executeQuery();
@@ -387,7 +387,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(COUNT_MISFIRED_TRIGGERS_IN_STATE));
+            ps = conn.prepareStatement(rtpq(COUNT_MISFIRED_TRIGGERS_IN_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setBigDecimal(1, new BigDecimal(String.valueOf(ts)));
             ps.setString(2, state1);
             rs = ps.executeQuery();
@@ -421,7 +421,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             ps = conn
-                    .prepareStatement(rtp(SELECT_MISFIRED_TRIGGERS_IN_GROUP_IN_STATE));
+                    .prepareStatement(rtpq(SELECT_MISFIRED_TRIGGERS_IN_GROUP_IN_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setBigDecimal(1, new BigDecimal(String.valueOf(ts)));
             ps.setString(2, groupName);
             ps.setString(3, state);
@@ -467,7 +467,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             ps = conn
-                    .prepareStatement(rtp(SELECT_INSTANCES_RECOVERABLE_FIRED_TRIGGERS));
+                    .prepareStatement(rtpq(SELECT_INSTANCES_RECOVERABLE_FIRED_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, instanceId);
             setBoolean(ps, 2, true);
             rs = ps.executeQuery();
@@ -520,7 +520,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(DELETE_FIRED_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(DELETE_FIRED_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
 
             return ps.executeUpdate();
         } finally {
@@ -533,7 +533,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(DELETE_INSTANCES_FIRED_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(DELETE_INSTANCES_FIRED_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, theInstanceId);
 
             return ps.executeUpdate();
@@ -555,28 +555,28 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(DELETE_ALL_SIMPLE_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(DELETE_ALL_SIMPLE_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.executeUpdate();
             ps.close();
-            ps = conn.prepareStatement(rtp(DELETE_ALL_SIMPROP_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(DELETE_ALL_SIMPROP_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.executeUpdate();
             ps.close();
-            ps = conn.prepareStatement(rtp(DELETE_ALL_CRON_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(DELETE_ALL_CRON_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.executeUpdate();
             ps.close();
-            ps = conn.prepareStatement(rtp(DELETE_ALL_BLOB_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(DELETE_ALL_BLOB_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.executeUpdate();
             ps.close();
-            ps = conn.prepareStatement(rtp(DELETE_ALL_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(DELETE_ALL_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.executeUpdate();
             ps.close();
-            ps = conn.prepareStatement(rtp(DELETE_ALL_JOB_DETAILS));
+            ps = conn.prepareStatement(rtpq(DELETE_ALL_JOB_DETAILS,conn.getMetaData().getIdentifierQuoteString()));
             ps.executeUpdate();
             ps.close();
-            ps = conn.prepareStatement(rtp(DELETE_ALL_CALENDARS));
+            ps = conn.prepareStatement(rtpq(DELETE_ALL_CALENDARS,conn.getMetaData().getIdentifierQuoteString()));
             ps.executeUpdate();
             ps.close();
-            ps = conn.prepareStatement(rtp(DELETE_ALL_PAUSED_TRIGGER_GRPS));
+            ps = conn.prepareStatement(rtpq(DELETE_ALL_PAUSED_TRIGGER_GRPS,conn.getMetaData().getIdentifierQuoteString()));
             ps.executeUpdate();
         } finally {
             closeStatement(ps);
@@ -610,7 +610,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         int insertResult = 0;
 
         try {
-            ps = conn.prepareStatement(rtp(INSERT_JOB_DETAIL));
+            ps = conn.prepareStatement(rtpq(INSERT_JOB_DETAIL,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, job.getKey().getName());
             ps.setString(2, job.getKey().getGroup());
             ps.setString(3, job.getDescription());
@@ -651,7 +651,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         int insertResult = 0;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_JOB_DETAIL));
+            ps = conn.prepareStatement(rtpq(UPDATE_JOB_DETAIL,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, job.getDescription());
             ps.setString(2, job.getJobClass().getName());
             setBoolean(ps, 3, job.isDurable());
@@ -685,7 +685,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGERS_FOR_JOB));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGERS_FOR_JOB,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
@@ -720,7 +720,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             if (logger.isDebugEnabled()) {
                 logger.debug("Deleting job: " + jobKey);
             }
-            ps = conn.prepareStatement(rtp(DELETE_JOB_DETAIL));
+            ps = conn.prepareStatement(rtpq(DELETE_JOB_DETAIL,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             return ps.executeUpdate();
@@ -743,7 +743,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_JOB_NONCONCURRENT));
+            ps = conn.prepareStatement(rtpq(SELECT_JOB_NONCONCURRENT,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
@@ -770,7 +770,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_JOB_EXISTENCE));
+            ps = conn.prepareStatement(rtpq(SELECT_JOB_EXISTENCE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
@@ -804,7 +804,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_JOB_DATA));
+            ps = conn.prepareStatement(rtpq(UPDATE_JOB_DATA,conn.getMetaData().getIdentifierQuoteString()));
             setBytes(ps, 1, baos);
             ps.setString(2, job.getKey().getName());
             ps.setString(3, job.getKey().getGroup());
@@ -836,7 +836,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_JOB_DETAIL));
+            ps = conn.prepareStatement(rtpq(SELECT_JOB_DETAIL,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
@@ -909,7 +909,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             int count = 0;
-            ps = conn.prepareStatement(rtp(SELECT_NUM_JOBS));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_JOBS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -937,7 +937,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_JOB_GROUPS));
+            ps = conn.prepareStatement(rtpq(SELECT_JOB_GROUPS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             LinkedList<String> list = new LinkedList<String>();
@@ -970,11 +970,11 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             if(isMatcherEquals(matcher)) {
-                ps = conn.prepareStatement(rtp(SELECT_JOBS_IN_GROUP));
+                ps = conn.prepareStatement(rtpq(SELECT_JOBS_IN_GROUP,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, toSqlEqualsClause(matcher));
             }
             else {
-                ps = conn.prepareStatement(rtp(SELECT_JOBS_IN_GROUP_LIKE));
+                ps = conn.prepareStatement(rtpq(SELECT_JOBS_IN_GROUP_LIKE,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, toSqlLikeClause(matcher));
             }
             rs = ps.executeQuery();
@@ -1053,7 +1053,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         int insertResult = 0;
 
         try {
-            ps = conn.prepareStatement(rtp(INSERT_TRIGGER));
+            ps = conn.prepareStatement(rtpq(INSERT_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, trigger.getKey().getName());
             ps.setString(2, trigger.getKey().getGroup());
             ps.setString(3, trigger.getJobKey().getName());
@@ -1130,7 +1130,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             byte[] buf = os.toByteArray();
             ByteArrayInputStream is = new ByteArrayInputStream(buf);
 
-            ps = conn.prepareStatement(rtp(INSERT_BLOB_TRIGGER));
+            ps = conn.prepareStatement(rtpq(INSERT_BLOB_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, trigger.getKey().getName());
             ps.setString(2, trigger.getKey().getGroup());
             ps.setBinaryStream(3, is, buf.length);
@@ -1171,9 +1171,9 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             if(updateJobData) {
-                ps = conn.prepareStatement(rtp(UPDATE_TRIGGER));
+                ps = conn.prepareStatement(rtpq(UPDATE_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             } else {
-                ps = conn.prepareStatement(rtp(UPDATE_TRIGGER_SKIP_DATA));
+                ps = conn.prepareStatement(rtpq(UPDATE_TRIGGER_SKIP_DATA,conn.getMetaData().getIdentifierQuoteString()));
             }
                 
             ps.setString(1, trigger.getJobKey().getName());
@@ -1259,7 +1259,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             byte[] buf = os.toByteArray();
             ByteArrayInputStream is = new ByteArrayInputStream(buf);
 
-            ps = conn.prepareStatement(rtp(UPDATE_BLOB_TRIGGER));
+            ps = conn.prepareStatement(rtpq(UPDATE_BLOB_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setBinaryStream(1, is, buf.length);
             ps.setString(2, trigger.getKey().getName());
             ps.setString(3, trigger.getKey().getGroup());
@@ -1287,7 +1287,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGER_EXISTENCE));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGER_EXISTENCE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
             rs = ps.executeQuery();
@@ -1319,7 +1319,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_TRIGGER_STATE));
+            ps = conn.prepareStatement(rtpq(UPDATE_TRIGGER_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, state);
             ps.setString(2, triggerKey.getName());
             ps.setString(3, triggerKey.getGroup());
@@ -1355,7 +1355,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_TRIGGER_STATE_FROM_STATES));
+            ps = conn.prepareStatement(rtpq(UPDATE_TRIGGER_STATE_FROM_STATES,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, newState);
             ps.setString(2, triggerKey.getName());
             ps.setString(3, triggerKey.getGroup());
@@ -1397,7 +1397,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             ps = conn
-                    .prepareStatement(rtp(UPDATE_TRIGGER_GROUP_STATE_FROM_STATES));
+                    .prepareStatement(rtpq(UPDATE_TRIGGER_GROUP_STATE_FROM_STATES,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, newState);
             ps.setString(2, toSqlLikeClause(matcher));
             ps.setString(3, oldState1);
@@ -1430,7 +1430,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_TRIGGER_STATE_FROM_STATE));
+            ps = conn.prepareStatement(rtpq(UPDATE_TRIGGER_STATE_FROM_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, newState);
             ps.setString(2, triggerKey.getName());
             ps.setString(3, triggerKey.getGroup());
@@ -1466,7 +1466,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             ps = conn
-                    .prepareStatement(rtp(UPDATE_TRIGGER_GROUP_STATE_FROM_STATE));
+                    .prepareStatement(rtpq(UPDATE_TRIGGER_GROUP_STATE_FROM_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, newState);
             ps.setString(2, toSqlLikeClause(matcher));
             ps.setString(3, oldState);
@@ -1493,7 +1493,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_JOB_TRIGGER_STATES));
+            ps = conn.prepareStatement(rtpq(UPDATE_JOB_TRIGGER_STATES,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, state);
             ps.setString(2, jobKey.getName());
             ps.setString(3, jobKey.getGroup());
@@ -1511,7 +1511,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             ps = conn
-                    .prepareStatement(rtp(UPDATE_JOB_TRIGGER_STATES_FROM_OTHER_STATE));
+                    .prepareStatement(rtpq(UPDATE_JOB_TRIGGER_STATES_FROM_OTHER_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, state);
             ps.setString(2, jobKey.getName());
             ps.setString(3, jobKey.getGroup());
@@ -1536,7 +1536,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(DELETE_BLOB_TRIGGER));
+            ps = conn.prepareStatement(rtpq(DELETE_BLOB_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
 
@@ -1561,7 +1561,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         deleteTriggerExtension(conn, triggerKey);
         
         try {
-            ps = conn.prepareStatement(rtp(DELETE_TRIGGER));
+            ps = conn.prepareStatement(rtpq(DELETE_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
 
@@ -1595,7 +1595,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_NUM_TRIGGERS_FOR_JOB));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_TRIGGERS_FOR_JOB,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
@@ -1648,7 +1648,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_JOB_FOR_TRIGGER));
+            ps = conn.prepareStatement(rtpq(SELECT_JOB_FOR_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
             rs = ps.executeQuery();
@@ -1695,7 +1695,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGERS_FOR_JOB));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGERS_FOR_JOB,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
@@ -1722,7 +1722,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGERS_FOR_CALENDAR));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGERS_FOR_CALENDAR,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, calName);
             rs = ps.executeQuery();
 
@@ -1754,10 +1754,12 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             OperableTrigger trigger = null;
+            
 
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGER));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
+
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -1799,7 +1801,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                     rs.close(); rs = null;
                     ps.close(); ps = null;
 
-                    ps = conn.prepareStatement(rtp(SELECT_BLOB_TRIGGER));
+                    ps = conn.prepareStatement(rtpq(SELECT_BLOB_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
                     ps.setString(1, triggerKey.getName());
                     ps.setString(2, triggerKey.getGroup());
                     rs = ps.executeQuery();
@@ -1897,7 +1899,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGER_DATA));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGER_DATA,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, triggerName);
             ps.setString(2, groupName);
             rs = ps.executeQuery();
@@ -1943,7 +1945,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         try {
             String state = null;
 
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGER_STATE));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGER_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
             rs = ps.executeQuery();
@@ -1979,7 +1981,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         try {
             TriggerStatus status = null;
 
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGER_STATUS));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGER_STATUS,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
             rs = ps.executeQuery();
@@ -2023,7 +2025,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             int count = 0;
-            ps = conn.prepareStatement(rtp(SELECT_NUM_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -2051,7 +2053,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGER_GROUPS));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGER_GROUPS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             LinkedList<String> list = new LinkedList<String>();
@@ -2071,7 +2073,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGER_GROUPS_FILTERED));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGER_GROUPS_FILTERED,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, toSqlLikeClause(matcher));
             rs = ps.executeQuery();
 
@@ -2105,11 +2107,11 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             if(isMatcherEquals(matcher)) {
-                ps = conn.prepareStatement(rtp(SELECT_TRIGGERS_IN_GROUP));
+                ps = conn.prepareStatement(rtpq(SELECT_TRIGGERS_IN_GROUP,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, toSqlEqualsClause(matcher));
             }
             else {
-                ps = conn.prepareStatement(rtp(SELECT_TRIGGERS_IN_GROUP_LIKE));
+                ps = conn.prepareStatement(rtpq(SELECT_TRIGGERS_IN_GROUP_LIKE,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, toSqlLikeClause(matcher));
             }
             rs = ps.executeQuery();
@@ -2131,7 +2133,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(INSERT_PAUSED_TRIGGER_GROUP));
+            ps = conn.prepareStatement(rtpq(INSERT_PAUSED_TRIGGER_GROUP,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, groupName);
             int rows = ps.executeUpdate();
 
@@ -2146,7 +2148,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(DELETE_PAUSED_TRIGGER_GROUP));
+            ps = conn.prepareStatement(rtpq(DELETE_PAUSED_TRIGGER_GROUP,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, groupName);
             int rows = ps.executeUpdate();
 
@@ -2161,7 +2163,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(DELETE_PAUSED_TRIGGER_GROUP));
+            ps = conn.prepareStatement(rtpq(DELETE_PAUSED_TRIGGER_GROUP,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, toSqlLikeClause(matcher));
             int rows = ps.executeUpdate();
 
@@ -2176,7 +2178,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(DELETE_PAUSED_TRIGGER_GROUPS));
+            ps = conn.prepareStatement(rtpq(DELETE_PAUSED_TRIGGER_GROUPS,conn.getMetaData().getIdentifierQuoteString()));
             int rows = ps.executeUpdate();
 
             return rows;
@@ -2191,7 +2193,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_PAUSED_TRIGGER_GROUP));
+            ps = conn.prepareStatement(rtpq(SELECT_PAUSED_TRIGGER_GROUP,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, groupName);
             rs = ps.executeQuery();
 
@@ -2208,7 +2210,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_NUM_TRIGGERS_IN_GROUP));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_TRIGGERS_IN_GROUP,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, groupName);
             rs = ps.executeQuery();
 
@@ -2249,7 +2251,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(INSERT_CALENDAR));
+            ps = conn.prepareStatement(rtpq(INSERT_CALENDAR,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, calendarName);
             setBytes(ps, 2, baos);
 
@@ -2281,7 +2283,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_CALENDAR));
+            ps = conn.prepareStatement(rtpq(UPDATE_CALENDAR,conn.getMetaData().getIdentifierQuoteString()));
             setBytes(ps, 1, baos);
             ps.setString(2, calendarName);
 
@@ -2308,7 +2310,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_CALENDAR_EXISTENCE));
+            ps = conn.prepareStatement(rtpq(SELECT_CALENDAR_EXISTENCE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, calendarName);
             rs = ps.executeQuery();
 
@@ -2344,7 +2346,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String selCal = rtp(SELECT_CALENDAR);
+            String selCal = rtpq(SELECT_CALENDAR,conn.getMetaData().getIdentifierQuoteString());
             ps = conn.prepareStatement(selCal);
             ps.setString(1, calendarName);
             rs = ps.executeQuery();
@@ -2380,7 +2382,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement(rtp(SELECT_REFERENCED_CALENDAR));
+            ps = conn.prepareStatement(rtpq(SELECT_REFERENCED_CALENDAR,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, calendarName);
             rs = ps.executeQuery();
 
@@ -2411,7 +2413,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(DELETE_CALENDAR));
+            ps = conn.prepareStatement(rtpq(DELETE_CALENDAR,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, calendarName);
 
             return ps.executeUpdate();
@@ -2435,7 +2437,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             int count = 0;
-            ps = conn.prepareStatement(rtp(SELECT_NUM_CALENDARS));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_CALENDARS,conn.getMetaData().getIdentifierQuoteString()));
 
             rs = ps.executeQuery();
 
@@ -2464,7 +2466,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_CALENDARS));
+            ps = conn.prepareStatement(rtpq(SELECT_CALENDARS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             LinkedList<String> list = new LinkedList<String>();
@@ -2498,7 +2500,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement(rtp(SELECT_NEXT_FIRE_TIME));
+            ps = conn.prepareStatement(rtpq(SELECT_NEXT_FIRE_TIME,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, STATE_WAITING);
             rs = ps.executeQuery();
 
@@ -2531,7 +2533,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement(rtp(SELECT_TRIGGER_FOR_FIRE_TIME));
+            ps = conn.prepareStatement(rtpq(SELECT_TRIGGER_FOR_FIRE_TIME,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, STATE_WAITING);
             ps.setBigDecimal(2, new BigDecimal(String.valueOf(fireTime)));
             rs = ps.executeQuery();
@@ -2596,7 +2598,10 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
         List<TriggerKey> nextTriggers = new LinkedList<TriggerKey>();
         try {
-            ps = conn.prepareStatement(rtp(SELECT_NEXT_TRIGGER_TO_ACQUIRE));
+            String quoteString = conn.getMetaData().getIdentifierQuoteString();
+ 
+            ps = conn.prepareStatement(rtpq(SELECT_NEXT_TRIGGER_TO_ACQUIRE,conn.getMetaData().getIdentifierQuoteString()));
+            
             
             // Set max rows to retrieve
             if (maxCount < 1)
@@ -2642,7 +2647,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             String state, JobDetail job) throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement(rtp(INSERT_FIRED_TRIGGER));
+            ps = conn.prepareStatement(rtpq(INSERT_FIRED_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, trigger.getFireInstanceId());
             ps.setString(2, trigger.getKey().getName());
             ps.setString(3, trigger.getKey().getGroup());
@@ -2686,7 +2691,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             String state, JobDetail job) throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_FIRED_TRIGGER));
+            ps = conn.prepareStatement(rtpq(UPDATE_FIRED_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             
             ps.setString(1, instanceId);
 
@@ -2730,11 +2735,11 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             List<FiredTriggerRecord> lst = new LinkedList<FiredTriggerRecord>();
 
             if (triggerName != null) {
-                ps = conn.prepareStatement(rtp(SELECT_FIRED_TRIGGER));
+                ps = conn.prepareStatement(rtpq(SELECT_FIRED_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, triggerName);
                 ps.setString(2, groupName);
             } else {
-                ps = conn.prepareStatement(rtp(SELECT_FIRED_TRIGGER_GROUP));
+                ps = conn.prepareStatement(rtpq(SELECT_FIRED_TRIGGER_GROUP,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, groupName);
             }
             rs = ps.executeQuery();
@@ -2782,12 +2787,12 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             List<FiredTriggerRecord> lst = new LinkedList<FiredTriggerRecord>();
 
             if (jobName != null) {
-                ps = conn.prepareStatement(rtp(SELECT_FIRED_TRIGGERS_OF_JOB));
+                ps = conn.prepareStatement(rtpq(SELECT_FIRED_TRIGGERS_OF_JOB,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, jobName);
                 ps.setString(2, groupName);
             } else {
                 ps = conn
-                        .prepareStatement(rtp(SELECT_FIRED_TRIGGERS_OF_JOB_GROUP));
+                        .prepareStatement(rtpq(SELECT_FIRED_TRIGGERS_OF_JOB_GROUP,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, groupName);
             }
             rs = ps.executeQuery();
@@ -2828,7 +2833,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         try {
             List<FiredTriggerRecord> lst = new LinkedList<FiredTriggerRecord>();
 
-            ps = conn.prepareStatement(rtp(SELECT_INSTANCES_FIRED_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(SELECT_INSTANCES_FIRED_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, instanceName);
             rs = ps.executeQuery();
 
@@ -2879,7 +2884,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         try {
             Set<String> instanceNames = new HashSet<String>();
 
-            ps = conn.prepareStatement(rtp(SELECT_FIRED_TRIGGER_INSTANCE_NAMES));
+            ps = conn.prepareStatement(rtpq(SELECT_FIRED_TRIGGER_INSTANCE_NAMES,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -2908,7 +2913,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement(rtp(DELETE_FIRED_TRIGGER));
+            ps = conn.prepareStatement(rtpq(DELETE_FIRED_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, entryId);
 
             return ps.executeUpdate();
@@ -2922,7 +2927,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_JOB_EXECUTION_COUNT));
+            ps = conn.prepareStatement(rtpq(SELECT_JOB_EXECUTION_COUNT,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
 
@@ -2940,7 +2945,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement(rtp(INSERT_SCHEDULER_STATE));
+            ps = conn.prepareStatement(rtpq(INSERT_SCHEDULER_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, theInstanceId);
             ps.setLong(2, checkInTime);
             ps.setLong(3, interval);
@@ -2955,7 +2960,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement(rtp(DELETE_SCHEDULER_STATE));
+            ps = conn.prepareStatement(rtpq(DELETE_SCHEDULER_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, theInstanceId);
 
             return ps.executeUpdate();
@@ -2968,7 +2973,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_SCHEDULER_STATE));
+            ps = conn.prepareStatement(rtpq(UPDATE_SCHEDULER_STATE,conn.getMetaData().getIdentifierQuoteString()));
             ps.setLong(1, checkInTime);
             ps.setString(2, theInstanceId);
         
@@ -2986,10 +2991,10 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             List<SchedulerStateRecord> lst = new LinkedList<SchedulerStateRecord>();
 
             if (theInstanceId != null) {
-                ps = conn.prepareStatement(rtp(SELECT_SCHEDULER_STATE));
+                ps = conn.prepareStatement(rtpq(SELECT_SCHEDULER_STATE,conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, theInstanceId);
             } else {
-                ps = conn.prepareStatement(rtp(SELECT_SCHEDULER_STATES));
+                ps = conn.prepareStatement(rtpq(SELECT_SCHEDULER_STATES,conn.getMetaData().getIdentifierQuoteString()));
             }
             rs = ps.executeQuery();
 
@@ -3026,9 +3031,25 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
      * @return the query, with proper table prefix substituted
      */
     protected final String rtp(String query) {
-        return Util.rtp(query, tablePrefix, getSchedulerNameLiteral());
+        String res = Util.rtp(query, tablePrefix, getSchedulerNameLiteral());
+        return res;
     }
 
+    /**
+     * <p>
+     * Replace the table prefix in a query by replacing any occurrences of
+     * "{0}" with the table prefix.
+     * </p>
+     * 
+     * @param query
+     *          the unsubstitued query
+     * @param quote_string - escape around table name
+     * @return the query, with proper table prefix substituted
+     */
+    protected final String rtpq(String query, String quote_string) {
+        String res = Util.rtp(query.replaceAll("@q@", quote_string), tablePrefix, getSchedulerNameLiteral());
+        return res;
+    }
     private String schedNameLiteral = null;
     protected String getSchedulerNameLiteral() {
         if(schedNameLiteral == null)
@@ -3250,7 +3271,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         HashSet<String> set = new HashSet<String>();
         try {
-            ps = conn.prepareStatement(rtp(SELECT_PAUSED_TRIGGER_GROUPS));
+            ps = conn.prepareStatement(rtpq(SELECT_PAUSED_TRIGGER_GROUPS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             while (rs.next()) {

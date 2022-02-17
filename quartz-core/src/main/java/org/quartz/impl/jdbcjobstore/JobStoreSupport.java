@@ -836,6 +836,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * @throws JobPersistenceException if jobs could not be recovered
      */
     protected void recoverJobs() throws JobPersistenceException {
+    	System.out.println("LOCK_TRIGGER_ACCESS=" + LOCK_TRIGGER_ACCESS);
         executeInNonManagedTXLock(
             LOCK_TRIGGER_ACCESS,
             new VoidTransactionCallback() {

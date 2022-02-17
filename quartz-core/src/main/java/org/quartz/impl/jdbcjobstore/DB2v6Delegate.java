@@ -35,29 +35,29 @@ import org.slf4j.Logger;
  */
 public class DB2v6Delegate extends StdJDBCDelegate {
     @SuppressWarnings("hiding")
-    public static final String SELECT_NUM_JOBS = "SELECT COUNT(*) FROM "
+    public static final String SELECT_NUM_JOBS = "SELECT COUNT(*) FROM @q@"
             + TABLE_PREFIX_SUBST + TABLE_JOB_DETAILS
-            + " WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST;
+            + "@q@ WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST;
 
     @SuppressWarnings("hiding")
-    public static final String SELECT_NUM_TRIGGERS_FOR_JOB = "SELECT COUNT(*) FROM "
+    public static final String SELECT_NUM_TRIGGERS_FOR_JOB = "SELECT COUNT(*) FROM @q@"
             + TABLE_PREFIX_SUBST
             + TABLE_TRIGGERS
-            + " WHERE "
+            + "@q@ WHERE "
             + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST
             + " AND " 
             + COL_JOB_NAME
             + " = ? AND " + COL_JOB_GROUP + " = ?";
 
     @SuppressWarnings("hiding")
-    public static final String SELECT_NUM_TRIGGERS = "SELECT COUNT(*) FROM "
+    public static final String SELECT_NUM_TRIGGERS = "SELECT COUNT(*) FROM @q@"
             + TABLE_PREFIX_SUBST + TABLE_TRIGGERS
-            + " WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST;
+            + "@q@ WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST;
 
     @SuppressWarnings("hiding")
-    public static final String SELECT_NUM_CALENDARS = "SELECT COUNT(*) FROM "
+    public static final String SELECT_NUM_CALENDARS = "SELECT COUNT(*) FROM @q@"
             + TABLE_PREFIX_SUBST + TABLE_CALENDARS
-            + " WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST;
+            + "@q@ WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST;
 
     @Override
     public int selectNumJobs(Connection conn) throws SQLException {
@@ -66,7 +66,7 @@ public class DB2v6Delegate extends StdJDBCDelegate {
 
         try {
             int count = 0;
-            ps = conn.prepareStatement(rtp(SELECT_NUM_JOBS));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_JOBS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -86,7 +86,7 @@ public class DB2v6Delegate extends StdJDBCDelegate {
         ResultSet rs = null;
 
         try {
-            ps = conn.prepareStatement(rtp(SELECT_NUM_TRIGGERS_FOR_JOB));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_TRIGGERS_FOR_JOB,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
@@ -109,7 +109,7 @@ public class DB2v6Delegate extends StdJDBCDelegate {
 
         try {
             int count = 0;
-            ps = conn.prepareStatement(rtp(SELECT_NUM_TRIGGERS));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_TRIGGERS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -130,7 +130,7 @@ public class DB2v6Delegate extends StdJDBCDelegate {
 
         try {
             int count = 0;
-            ps = conn.prepareStatement(rtp(SELECT_NUM_CALENDARS));
+            ps = conn.prepareStatement(rtpq(SELECT_NUM_CALENDARS,conn.getMetaData().getIdentifierQuoteString()));
             rs = ps.executeQuery();
 
             if (rs.next()) {

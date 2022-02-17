@@ -73,7 +73,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
         int insertResult = 0;
 
         try {
-            ps = conn.prepareStatement(rtp(INSERT_JOB_DETAIL));
+            ps = conn.prepareStatement(rtpq(INSERT_JOB_DETAIL,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, job.getKey().getName());
             ps.setString(2, job.getKey().getGroup());
             ps.setString(3, job.getDescription());
@@ -118,7 +118,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
         int insertResult = 0;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_JOB_DETAIL));
+            ps = conn.prepareStatement(rtpq(UPDATE_JOB_DETAIL,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, job.getDescription());
             ps.setString(2, job.getJobClass().getName());
             setBoolean(ps, 3, job.isDurable());
@@ -150,7 +150,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
         int insertResult = 0;
 
         try {
-            ps = conn.prepareStatement(rtp(INSERT_TRIGGER));
+            ps = conn.prepareStatement(rtpq(INSERT_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
             ps.setString(1, trigger.getKey().getName());
             ps.setString(2, trigger.getKey().getGroup());
             ps.setString(3, trigger.getJobKey().getName());
@@ -212,7 +212,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
 
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_TRIGGER));
+            ps = conn.prepareStatement(rtpq(UPDATE_TRIGGER,conn.getMetaData().getIdentifierQuoteString()));
                 
             ps.setString(1, trigger.getJobKey().getName());
             ps.setString(2, trigger.getJobKey().getGroup());
@@ -287,7 +287,7 @@ public class PointbaseDelegate extends StdJDBCDelegate {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(rtp(UPDATE_JOB_DATA));
+            ps = conn.prepareStatement(rtpq(UPDATE_JOB_DATA,conn.getMetaData().getIdentifierQuoteString()));
             ps.setBinaryStream(1, bais, len);
             ps.setString(2, job.getKey().getName());
             ps.setString(3, job.getKey().getGroup());

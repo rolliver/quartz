@@ -52,7 +52,7 @@ public class CronTriggerPersistenceDelegate implements TriggerPersistenceDelegat
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(Util.rtp(DELETE_CRON_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(DELETE_CRON_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
 
@@ -69,7 +69,7 @@ public class CronTriggerPersistenceDelegate implements TriggerPersistenceDelegat
         PreparedStatement ps = null;
         
         try {
-            ps = conn.prepareStatement(Util.rtp(INSERT_CRON_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(INSERT_CRON_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, trigger.getKey().getName());
             ps.setString(2, trigger.getKey().getGroup());
             ps.setString(3, cronTrigger.getCronExpression());
@@ -87,7 +87,7 @@ public class CronTriggerPersistenceDelegate implements TriggerPersistenceDelegat
         ResultSet rs = null;
         
         try {
-            ps = conn.prepareStatement(Util.rtp(SELECT_CRON_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(SELECT_CRON_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
             rs = ps.executeQuery();
@@ -118,7 +118,7 @@ public class CronTriggerPersistenceDelegate implements TriggerPersistenceDelegat
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(Util.rtp(UPDATE_CRON_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(UPDATE_CRON_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, cronTrigger.getCronExpression());
             ps.setString(2, cronTrigger.getTimeZone().getID());
             ps.setString(3, trigger.getKey().getName());

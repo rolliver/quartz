@@ -42,14 +42,14 @@ public class UpdateLockRowSemaphore extends DBSemaphore {
      */
 
     public static final String UPDATE_FOR_LOCK = 
-        "UPDATE " + TABLE_PREFIX_SUBST + TABLE_LOCKS + 
-        " SET " + COL_LOCK_NAME + " = " + COL_LOCK_NAME +
+        "UPDATE @q@" + TABLE_PREFIX_SUBST + TABLE_LOCKS + 
+        "@q@ SET " + COL_LOCK_NAME + " = " + COL_LOCK_NAME +
         " WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST
         + " AND " + COL_LOCK_NAME + " = ? ";
 
 
-    public static final String INSERT_LOCK = "INSERT INTO "
-        + TABLE_PREFIX_SUBST + TABLE_LOCKS + "(" + COL_SCHEDULER_NAME + ", " + COL_LOCK_NAME + ") VALUES (" 
+    public static final String INSERT_LOCK = "INSERT INTO @q@"
+        + TABLE_PREFIX_SUBST + TABLE_LOCKS + "@q@(" + COL_SCHEDULER_NAME + ", " + COL_LOCK_NAME + ") VALUES (" 
         + SCHED_NAME_SUBST + ", ?)"; 
     
     private static final int RETRY_COUNT = 2;

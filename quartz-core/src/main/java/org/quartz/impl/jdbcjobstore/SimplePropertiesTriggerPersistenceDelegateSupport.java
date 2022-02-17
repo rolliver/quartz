@@ -53,18 +53,18 @@ public abstract class SimplePropertiesTriggerPersistenceDelegateSupport implemen
     protected static final String COL_BOOL_PROP_1 = "BOOL_PROP_1";
     protected static final String COL_BOOL_PROP_2 = "BOOL_PROP_2";
     
-    protected static final String SELECT_SIMPLE_PROPS_TRIGGER = "SELECT *" + " FROM "
-        + TABLE_PREFIX_SUBST + TABLE_SIMPLE_PROPERTIES_TRIGGERS + " WHERE "
+    protected static final String SELECT_SIMPLE_PROPS_TRIGGER = "SELECT *" + " FROM @q@"
+        + TABLE_PREFIX_SUBST + TABLE_SIMPLE_PROPERTIES_TRIGGERS + "@q@ WHERE "
         + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST
         + " AND " + COL_TRIGGER_NAME + " = ? AND " + COL_TRIGGER_GROUP + " = ?";
 
-    protected static final String DELETE_SIMPLE_PROPS_TRIGGER = "DELETE FROM "
-        + TABLE_PREFIX_SUBST + TABLE_SIMPLE_PROPERTIES_TRIGGERS + " WHERE "
+    protected static final String DELETE_SIMPLE_PROPS_TRIGGER = "DELETE FROM @q@"
+        + TABLE_PREFIX_SUBST + TABLE_SIMPLE_PROPERTIES_TRIGGERS + "@q@ WHERE "
         + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST
         + " AND " + COL_TRIGGER_NAME + " = ? AND " + COL_TRIGGER_GROUP + " = ?";
 
-    protected static final String INSERT_SIMPLE_PROPS_TRIGGER = "INSERT INTO "
-        + TABLE_PREFIX_SUBST + TABLE_SIMPLE_PROPERTIES_TRIGGERS + " ("
+    protected static final String INSERT_SIMPLE_PROPS_TRIGGER = "INSERT INTO @q@"
+        + TABLE_PREFIX_SUBST + TABLE_SIMPLE_PROPERTIES_TRIGGERS + "@q@ ("
         + COL_SCHEDULER_NAME + ", "
         + COL_TRIGGER_NAME + ", " + COL_TRIGGER_GROUP + ", "
         + COL_STR_PROP_1 + ", " + COL_STR_PROP_2 + ", " + COL_STR_PROP_3 + ", "
@@ -74,8 +74,8 @@ public abstract class SimplePropertiesTriggerPersistenceDelegateSupport implemen
         + COL_BOOL_PROP_1 + ", " + COL_BOOL_PROP_2 
         + ") " + " VALUES(" + SCHED_NAME_SUBST + ", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    protected static final String UPDATE_SIMPLE_PROPS_TRIGGER = "UPDATE "
-        + TABLE_PREFIX_SUBST + TABLE_SIMPLE_PROPERTIES_TRIGGERS + " SET "
+    protected static final String UPDATE_SIMPLE_PROPS_TRIGGER = "UPDATE @q@"
+        + TABLE_PREFIX_SUBST + TABLE_SIMPLE_PROPERTIES_TRIGGERS + "@q@ SET "
         + COL_STR_PROP_1 + " = ?, " + COL_STR_PROP_2 + " = ?, " + COL_STR_PROP_3 + " = ?, "
         + COL_INT_PROP_1 + " = ?, " + COL_INT_PROP_2 + " = ?, "
         + COL_LONG_PROP_1 + " = ?, " + COL_LONG_PROP_2 + " = ?, "
@@ -102,7 +102,7 @@ public abstract class SimplePropertiesTriggerPersistenceDelegateSupport implemen
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(Util.rtp(DELETE_SIMPLE_PROPS_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(DELETE_SIMPLE_PROPS_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
 
@@ -119,7 +119,7 @@ public abstract class SimplePropertiesTriggerPersistenceDelegateSupport implemen
         PreparedStatement ps = null;
         
         try {
-            ps = conn.prepareStatement(Util.rtp(INSERT_SIMPLE_PROPS_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(INSERT_SIMPLE_PROPS_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, trigger.getKey().getName());
             ps.setString(2, trigger.getKey().getGroup());
             ps.setString(3, properties.getString1());
@@ -146,7 +146,7 @@ public abstract class SimplePropertiesTriggerPersistenceDelegateSupport implemen
         ResultSet rs = null;
         
         try {
-            ps = conn.prepareStatement(Util.rtp(SELECT_SIMPLE_PROPS_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(SELECT_SIMPLE_PROPS_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
             rs = ps.executeQuery();
@@ -169,7 +169,7 @@ public abstract class SimplePropertiesTriggerPersistenceDelegateSupport implemen
                 return getTriggerPropertyBundle(properties);
             }
             
-            throw new IllegalStateException("No record found for selection of Trigger with key: '" + triggerKey + "' and statement: " + Util.rtp(SELECT_SIMPLE_TRIGGER, tablePrefix, schedNameLiteral));
+            throw new IllegalStateException("No record found for selection of Trigger with key: '" + triggerKey + "' and statement: " + Util.rtp(SELECT_SIMPLE_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
         } finally {
             Util.closeResultSet(rs);
             Util.closeStatement(ps);
@@ -183,7 +183,7 @@ public abstract class SimplePropertiesTriggerPersistenceDelegateSupport implemen
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(Util.rtp(UPDATE_SIMPLE_PROPS_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(UPDATE_SIMPLE_PROPS_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, properties.getString1());
             ps.setString(2, properties.getString2());
             ps.setString(3, properties.getString3());

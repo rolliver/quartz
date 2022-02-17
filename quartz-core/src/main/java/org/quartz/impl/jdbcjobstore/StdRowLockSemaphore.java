@@ -39,12 +39,12 @@ public class StdRowLockSemaphore extends DBSemaphore {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    public static final String SELECT_FOR_LOCK = "SELECT * FROM "
-            + TABLE_PREFIX_SUBST + TABLE_LOCKS + " WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST
+    public static final String SELECT_FOR_LOCK = "SELECT * FROM @q@"
+            + TABLE_PREFIX_SUBST + TABLE_LOCKS + "@q@ WHERE " + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST
             + " AND " + COL_LOCK_NAME + " = ? FOR UPDATE";
 
-    public static final String INSERT_LOCK = "INSERT INTO "
-        + TABLE_PREFIX_SUBST + TABLE_LOCKS + "(" + COL_SCHEDULER_NAME + ", " + COL_LOCK_NAME + ") VALUES (" 
+    public static final String INSERT_LOCK = "INSERT INTO @q@"
+        + TABLE_PREFIX_SUBST + TABLE_LOCKS + "@q@(" + COL_SCHEDULER_NAME + ", " + COL_LOCK_NAME + ") VALUES (" 
         + SCHED_NAME_SUBST + ", ?)"; 
 
     /*
@@ -112,7 +112,7 @@ public class StdRowLockSemaphore extends DBSemaphore {
         do {
             count++;
             try {
-                ps = conn.prepareStatement(expandedSQL);
+                ps = conn.prepareStatement(expandedSQL.replaceAll("@q@", conn.getMetaData().getIdentifierQuoteString()));
                 ps.setString(1, lockName);
                 
                 if (getLog().isDebugEnabled()) {
@@ -129,7 +129,7 @@ public class StdRowLockSemaphore extends DBSemaphore {
                     rs = null;
                     ps.close();
                     ps = null;
-                    ps = conn.prepareStatement(expandedInsertSQL);
+                    ps = conn.prepareStatement(expandedInsertSQL.replaceAll("@q@", conn.getMetaData().getIdentifierQuoteString()));
                     ps.setString(1, lockName);
     
                     int res = ps.executeUpdate();

@@ -51,7 +51,7 @@ public class SimpleTriggerPersistenceDelegate implements TriggerPersistenceDeleg
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(Util.rtp(DELETE_SIMPLE_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(DELETE_SIMPLE_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
 
@@ -68,7 +68,7 @@ public class SimpleTriggerPersistenceDelegate implements TriggerPersistenceDeleg
         PreparedStatement ps = null;
         
         try {
-            ps = conn.prepareStatement(Util.rtp(INSERT_SIMPLE_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(INSERT_SIMPLE_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, trigger.getKey().getName());
             ps.setString(2, trigger.getKey().getGroup());
             ps.setInt(3, simpleTrigger.getRepeatCount());
@@ -87,7 +87,7 @@ public class SimpleTriggerPersistenceDelegate implements TriggerPersistenceDeleg
         ResultSet rs = null;
         
         try {
-            ps = conn.prepareStatement(Util.rtp(SELECT_SIMPLE_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(SELECT_SIMPLE_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
             ps.setString(1, triggerKey.getName());
             ps.setString(2, triggerKey.getGroup());
             rs = ps.executeQuery();
@@ -107,7 +107,7 @@ public class SimpleTriggerPersistenceDelegate implements TriggerPersistenceDeleg
                 return new TriggerPropertyBundle(sb, statePropertyNames, statePropertyValues);
             }
             
-            throw new IllegalStateException("No record found for selection of Trigger with key: '" + triggerKey + "' and statement: " + Util.rtp(SELECT_SIMPLE_TRIGGER, tablePrefix, schedNameLiteral));
+            throw new IllegalStateException("No record found for selection of Trigger with key: '" + triggerKey + "' and statement: " + Util.rtp(SELECT_SIMPLE_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
         } finally {
             Util.closeResultSet(rs);
             Util.closeStatement(ps);
@@ -121,7 +121,7 @@ public class SimpleTriggerPersistenceDelegate implements TriggerPersistenceDeleg
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement(Util.rtp(UPDATE_SIMPLE_TRIGGER, tablePrefix, schedNameLiteral));
+            ps = conn.prepareStatement(Util.rtp(UPDATE_SIMPLE_TRIGGER.replaceAll("@q@",conn.getMetaData().getIdentifierQuoteString()), tablePrefix, schedNameLiteral));
 
             ps.setInt(1, simpleTrigger.getRepeatCount());
             ps.setBigDecimal(2, new BigDecimal(String.valueOf(simpleTrigger.getRepeatInterval())));
